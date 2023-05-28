@@ -1,3 +1,4 @@
+import 'package:deutsch_notebook/Screens/Home_Page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-     // home: ,
+     home: Home_Page(),
     );
   }
 }
