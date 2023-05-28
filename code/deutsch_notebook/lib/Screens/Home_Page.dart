@@ -1,4 +1,5 @@
 import 'package:deutsch_notebook/Utils/myColors.dart';
+import 'package:deutsch_notebook/Database/Notebook_Database.dart';
 import 'package:flutter/material.dart';
 
 class Home_Page extends StatefulWidget {
@@ -9,6 +10,61 @@ class Home_Page extends StatefulWidget {
 }
 
 class _Home_PageState extends State<Home_Page> {
+
+  final TextEditingController _notebookName = TextEditingController();
+  String? valueText;
+  String? codeDialog;
+
+  //////////////////////////////////////// Dialog ////////////////////////////////////////
+
+  Future<void> _inputDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "Notebook Name"
+          ),
+          content: TextField(
+            onChanged: (value){
+              setState(() {
+                valueText = value;
+              });
+            },
+            controller: _notebookName,
+            decoration: InputDecoration(),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              color: myColors.White,
+              textColor: myColors.Gray,
+              child: Text("Cancel"),
+              onPressed: (){
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+            ),
+
+            MaterialButton(
+              color: myColors.Yellow,
+              textColor: myColors.Gray,
+              child: Text("Add"),
+              onPressed: (){
+                setState(() {
+                  codeDialog = valueText;
+
+                  Navigator.pop(context);
+                  print(valueText);
+                });
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +119,7 @@ class _Home_PageState extends State<Home_Page> {
       //////////////////////////////////////// Body ////////////////////////////////////////
 
       body: Container(
-        
+
       ),
 
       //////////////////////////////////////// Floating Action Button ////////////////////////////////////////
@@ -72,6 +128,7 @@ class _Home_PageState extends State<Home_Page> {
         backgroundColor: myColors.Yellow,
         onPressed: (){
           print("add list");
+          _inputDialog(context);
         },
         child: Icon(Icons.add, color: myColors.White,),
       ),

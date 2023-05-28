@@ -4,19 +4,29 @@ import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-void main() async {
+class Notebook_DbProvider{
 
-  WidgetsFlutterBinding.ensureInitialized();
+  Notebook_DbProvider._();
 
-  final database = openDatabase(
-    join(await getDatabasesPath(), 'Notebook_Database.db'),
-    onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE NoteBook(Note_Id INTEGER PRIMARY KEY, Note_Name TEXT)',
-      );
-    },
-    version: 1,
-  );
+  static final Notebook_DbProvider NoteBook_Database = Notebook_DbProvider._();
+  late Database _database;
+
+  Future<Database> get database async{
+    _database = await initDB();
+    return _database;
+  }
+
+  initDB() async{
+    return openDatabase(
+      join(await getDatabasesPath(), 'Notebook_Database.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE NoteBook(Note_Id INTEGER PRIMARY KEY, Note_Name TEXT)',
+        );
+      },
+      version: 1,
+    );
+  }
 
   Future<void> Insert_Notebook(Notebook_Model notebook_model) async {
     final db = await database;
